@@ -6,5 +6,6 @@
         }
     },
     "chapter1": "Chapter 1: Setup",
-    "chapter2": "Chapter 2: Các lệnh cơ bản"
+    "chapter2": "Chapter 2: Các lệnh cơ bản",
+    "chapter3": "Chapter 3: SSH kết nối đến máy chủ Ubuntu"
 }

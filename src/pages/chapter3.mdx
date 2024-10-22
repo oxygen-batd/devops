@@ -1,0 +1,76 @@
+# Hướng Dẫn Thiết Lập SSH trên Ubuntu với Mutilpass
+
+## 1. Máy Chủ
+
+- **`Cài đặt gói `openssh-server`**:
+
+    ```bash
+    sudo apt update
+    sudo apt install openssh-server
+    ```
+- **`Check trạng thái:`**
+
+    ```bash
+    sudo systemctl status ssh
+    ```
+
+- **`Cấu Hình SSH`**
+
+- **`Mở tệp cấu hình SSH:
+
+    ```copy
+    sudo nano /etc/ssh/sshd_config
+    ```
+
+- **`Tìm dòng và thay đổi thành:`**
+
+    ```
+    #PasswordAuthentication no -> PasswordAuthentication yes
+    ```
+
+- **`restart SSH:`**
+
+    ```copy
+    sudo systemctl restart ssh
+    ```
+
+## 2. Máy Khách
+
+- **`Kiểm Tra Khóa và Tạo Khóa SSH (Nếu Chưa Có). Enter để lưu vào mặc định (~/.ssh/id_rsa).`**
+
+    ```bash
+    ssh-keygen -t rsa -b 4096 -C "my-key"
+    ```
+
+
+- **`Sao Chép Khóa Công Khai Vào Máy Chủ.`**
+
+    ```copy
+    ssh-copy-id username@host-name
+    ```
+
+- **`Xử Lý Lỗi "Permission Denied (publickey)"`**
+    - **`Thiết lập quyền truy cập cho thư mục .ssh và tệp authorized_keys:`**
+
+        ```copy
+        chmod 700 /home/{username}/.ssh
+        chmod 600 /home/{username}/.ssh/authorized_keys
+        ```
+
+    - **`Get Nội Dung Khóa Công Khai (máy khách)`**
+
+        ```copy
+        cat ~/.ssh/id_rsa.pub
+        ```
+
+    - **`Dán Khóa Công Khai vào Tệp authorized_keys trên Máy Chủ. Lưu và đóng tệp.`**
+
+        ```copy
+        sudo vim /home/{username}/.ssh/authorized_keys
+        ```
+
+    - **`Kết nối lại từ máy khách đến máy chủ:`**
+
+        ```copy
+        ssh username@host-name
+        ```
