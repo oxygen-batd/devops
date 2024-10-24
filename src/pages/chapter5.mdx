@@ -2,29 +2,29 @@
 
 ## Install GitLab
 
-1. **Change user root**:
+**Change user root**:
    ```bash
    sudo -i
    ```
 
-2. **Install GitLab repository**:
+**Install GitLab repository**:
    ```bash
    curl -s https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.deb.sh | sudo bash
    ```
 
-3. **Install GitLab** (replace version if needed):
+**Install GitLab** (replace version if needed):
    ```bash
    sudo apt-get install gitlab-ee=17.3.6-ee.0
    ```
 
-4. **Check GitLab status**:
+**Check GitLab status**:
    ```bash
    sudo gitlab-ctl status
    ```
 
 ## Configuring GitLab
 
-1. **Edit `/etc/hosts`**:
+**Edit `/etc/hosts`**:
    ```bash
    sudo vim /etc/hosts
    ```
@@ -33,7 +33,7 @@
      {IP_address} {host_name}
      ```
 
-2. **Edit GitLab config**:
+**Edit GitLab config**:
    ```bash
    sudo vim /etc/gitlab/gitlab.rb
    ```
@@ -42,85 +42,113 @@
      external_url 'https://yourdomain'
      ```
 
-3. **Reconfigure GitLab**:
+**Reconfigure GitLab**:
    ```bash
    sudo gitlab-ctl reconfigure
    ```
 
-4. **Get initial root password**:
+**Get initial root password**:
    ```bash
    cat /etc/gitlab/initial_root_password
    ```
 
 ## Accessing GitLab
 
-1. **Add host on macOS/Windows**:
+**Add host on macOS/Windows**:
    - **macOS**:
      ```bash
      sudo vim /etc/hosts
      ```
    - **Windows**: Edit `C:\Windows\System32\drivers\etc\hosts`.
 
-2. **Open browser**:
+**Open browser**:
    - Navigate to `https://git.apt.tech`.
 
-3. **Login**:
+**Login**:
    - **Username**: `root`
    - **Password**: (from the previous command)
 
-## Backup GitLab
+## Backup GitLab Configuration
 
-1. **Edit backup path**:
+**Create a backup of the configuration**:
    ```bash
-   sudo vim /etc/gitlab/gitlab.rb
+   sudo gitlab-ctl backup-etc
    ```
-   - Set:
+   - Specify the backup directory:
      ```bash
-     gitlab_rails['backup_path'] = "/var/opt/gitlab/backups"
+     sudo gitlab-ctl backup-etc --backup-path <DIRECTORY>
      ```
 
-2. **Reconfigure**:
+**Folder includes file backup**:
    ```bash
-   sudo gitlab-ctl reconfigure
+   sudo cd /etc/gitlab/config_backup/
    ```
 
-3. **Set cron job**:
-   - Open the crontab file for editing:
-   ```bash
-   sudo crontab -e
-   ```
-   - Add the following line to schedule a daily backup at 2 AM:
-     ```
-     0 2 * * * /opt/gitlab/bin/gitlab-rake gitlab:backup:create CRON=1 && find /var/opt/gitlab/backups/ -type f -mtime +0 -delete
-     ```
-   - **Explanation**:
-     - `0 2 * * *`: Runs the command at 2 AM every day.
-     - `/opt/gitlab/bin/gitlab-rake gitlab:backup:create CRON=1`: Creates a backup of GitLab.
-     - `find /var/opt/gitlab/backups/ -type f -mtime +0 -delete`: Deletes backups older than 0 days, keeping only the latest backup.
+## Restore GitLab Configuration
 
-4. **Check cron job**:
+**Navigate to the backup folder**:
    ```bash
-   sudo crontab -l
+   sudo cd /etc/gitlab/config_backup/
    ```
 
-5. **Run backup manually**:
-   ```bash
-   sudo /opt/gitlab/bin/gitlab:backup:create CRON=1
-   ```
+**Restore the backup**:
 
-## Restore GitLab
+   - Rename the existing /etc/gitlab, if any
+      ```bash
+      sudo mv /etc/gitlab /etc/gitlab.$(date +%s)
+      ```
 
-1. **Stop GitLab**:
-   ```bash
-   sudo gitlab-ctl stop
-   ```
+   - Change the example timestamp below for your configuration backup
+      ```bash
+      sudo tar -xf gitlab_config_1487687824_2017_02_21.tar -C /
+      ```
 
-2. **Restore backup**:
-   ```bash
-   sudo gitlab-backup restore BACKUP={file_backup}
-   ```
+**Reset GitLab**:
+      ```bash
+      sudo gitlab-ctl reconfigure
+      ```
 
-3. **Start GitLab**:
-   ```bash
-   sudo gitlab-ctl start
-   ```
+## Create crontab
+
+   - create folder backup
+      ```bash
+      sudo mkdir -p /secret/gitlab/backups/
+      sudo chown -R root:root /secret/gitlab/backups/
+      ```
+
+   - Create crontab
+
+      ```bash
+      sudo crontab -e -u root
+      ```
+
+   - Schedule for crontab
+
+      ```bash
+      15 04 * * 2-6  gitlab-ctl backup-etc && cd /etc/gitlab/config_backup && cp $(ls -t | head -n1) /secret/gitlab/backups/
+      ```
+
+      - 2-6: running from Tuesday (2) to Saturday (6)
+      - 15 04: 4:15 AM
+
+   - Check status crontab
+
+      ```bash
+      sudo crontab -l
+      ```
+
+   - Try run crontab
+
+      ```bash
+      sudo gitlab-ctl backup-etc && cd /etc/gitlab/config_backup && cp $(ls -t | head -n1) /secret/gitlab/backups/
+      ```
+
+## Backup lifetime:
+
+   - edit `/etc/gitlab/gitlab.rb`
+      ```bash
+      ## Limit backup lifetime to 7 days - 604800 seconds
+      gitlab_rails['backup_keep_time'] = 604800
+      ```
+
+
