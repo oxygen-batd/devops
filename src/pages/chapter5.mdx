@@ -1,0 +1,126 @@
+# Installing GitLab on Ubuntu Server
+
+## Install GitLab
+
+1. **Change to the working directory**:
+   ```bash
+   pwd
+   ```
+
+2. **Install GitLab repository**:
+   ```bash
+   curl -s https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.deb.sh | sudo bash
+   ```
+
+3. **Install GitLab** (replace version if needed):
+   ```bash
+   sudo apt-get install gitlab-ee=17.3.6-ee.0
+   ```
+
+4. **Check GitLab status**:
+   ```bash
+   sudo gitlab-ctl status
+   ```
+
+## Configuring GitLab
+
+1. **Edit `/etc/hosts`**:
+   ```bash
+   sudo vim /etc/hosts
+   ```
+   - Add: 
+     ```
+     {IP_address} {host_name}
+     ```
+
+2. **Edit GitLab config**:
+   ```bash
+   sudo vim /etc/gitlab/gitlab.rb
+   ```
+   - Set `external_url`:
+     ```bash
+     external_url 'https://yourdomain'
+     ```
+
+3. **Reconfigure GitLab**:
+   ```bash
+   sudo gitlab-ctl reconfigure
+   ```
+
+4. **Get initial root password**:
+   ```bash
+   cat /etc/gitlab/initial_root_password
+   ```
+
+## Accessing GitLab
+
+1. **Add host on macOS/Windows**:
+   - **macOS**:
+     ```bash
+     sudo vim /etc/hosts
+     ```
+   - **Windows**: Edit `C:\Windows\System32\drivers\etc\hosts`.
+
+2. **Open browser**:
+   - Navigate to `https://git.apt.tech`.
+
+3. **Login**:
+   - **Username**: `root`
+   - **Password**: (from the previous command)
+
+## Backup GitLab
+
+1. **Edit backup path**:
+   ```bash
+   sudo vim /etc/gitlab/gitlab.rb
+   ```
+   - Set:
+     ```bash
+     gitlab_rails['backup_path'] = "/var/opt/gitlab/backups"
+     ```
+
+2. **Reconfigure**:
+   ```bash
+   sudo gitlab-ctl reconfigure
+   ```
+
+3. **Set cron job**:
+   - Open the crontab file for editing:
+   ```bash
+   sudo crontab -e
+   ```
+   - Add the following line to schedule a daily backup at 2 AM:
+     ```
+     0 2 * * * /opt/gitlab/bin/gitlab-rake gitlab:backup:create CRON=1 && find /var/opt/gitlab/backups/ -type f -mtime +0 -delete
+     ```
+   - **Explanation**:
+     - `0 2 * * *`: Runs the command at 2 AM every day.
+     - `/opt/gitlab/bin/gitlab-rake gitlab:backup:create CRON=1`: Creates a backup of GitLab.
+     - `find /var/opt/gitlab/backups/ -type f -mtime +0 -delete`: Deletes backups older than 0 days, keeping only the latest backup.
+
+4. **Check cron job**:
+   ```bash
+   sudo crontab -l
+   ```
+
+5. **Run backup manually**:
+   ```bash
+   sudo /opt/gitlab/bin/gitlab:backup:create CRON=1
+   ```
+
+## Restore GitLab
+
+1. **Stop GitLab**:
+   ```bash
+   sudo gitlab-ctl stop
+   ```
+
+2. **Restore backup**:
+   ```bash
+   sudo gitlab-backup restore BACKUP={file_backup}
+   ```
+
+3. **Start GitLab**:
+   ```bash
+   sudo gitlab-ctl start
+   ```

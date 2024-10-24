@@ -1,275 +1,47 @@
-# Hướng dẫn Các lệnh cơ bản trong Linux
+# Basic Linux Command Guide
 
-## Thông tin hệ thống
-- **`pwd`**
-  - **Mô tả**: Hiển thị đường dẫn thư mục hiện tại.
-  - **Cú pháp**: `pwd`
-  - **Ví dụ**: 
-    ```copy
-    $ pwd
-    /home/user
-    ```
+## System Information
+- **`pwd`**: Current directory path.
+- **`whoami`**: Current user's name.
+- **`history`**: List of previously executed commands.
 
-- **`whoami`**
-  - **Mô tả**: Hiển thị tên người dùng đang đăng nhập.
-  - **Cú pháp**: `whoami`
-  - **Ví dụ**: 
-    ```copy
-    $ whoami
-    user
-    ```
+## File and Directory Management
+- **`cd [path]`**: Change directory.
+- **`ls`**: List files/directories.
+- **`mkdir [name]`**: Create a directory.
+- **`touch [name]`**: Create/update a file.
+- **`rm [name]`**: Delete a file.
+- **`cp [source] [destination]`**: Copy a file.
+- **`mv [source] [destination]`**: Move/rename a file.
 
-- **`history`**
-  - **Mô tả**: Hiển thị danh sách các lệnh đã thực hiện trước đó.
-  - **Cú pháp**: `history`
-  - **Ví dụ**: 
-    ```copy
-    $ history
-    ```
+## Managing Permissions
+- **`chmod [permissions] [file]`**: Change file permissions.
+- **`chown [user]:[group] [file]`**: Change file ownership.
 
-## Quản lý thư mục và file
-- **`cd`**
-  - **Mô tả**: Thay đổi thư mục hiện tại.
-  - **Cú pháp**: `cd [đường dẫn]`
-  - **Ví dụ**: 
-    ```copy
-    $ cd /home/user/Documents
-    ```
+## Searching and Filtering
+- **`find [path] -name [name]`**: Search for files.
+- **`grep [string] [file]`**: Search for a string in a file.
 
-- **`ls`**
-  - **Mô tả**: Liệt kê các file và thư mục trong thư mục hiện tại.
-  - **Cú pháp**: `ls [tùy chọn]`
-  - **Ví dụ**: 
-    ```copy
-    $ ls -l
-    ```
+## Process Management
+- **`ps`**: Display running processes.
+- **`kill [PID]`**: Terminate a process.
 
-- **`mkdir`**
-  - **Mô tả**: Tạo một thư mục mới.
-  - **Cú pháp**: `mkdir [tên thư mục]`
-  - **Ví dụ**: 
-    ```copy
-    $ mkdir new_folder
-    ```
+## Disk Information
+- **`df`**: Show disk space usage.
+- **`du [path]`**: Check size of a directory/file.
 
-- **`touch`**
-  - **Mô tả**: Tạo một file mới hoặc cập nhật thời gian sửa đổi của file hiện có.
-  - **Cú pháp**: `touch [tên file]`
-  - **Ví dụ**: 
-    ```copy
-    $ touch newfile.txt
-    ```
+## Downloading and Transferring Files
+- **`wget [URL]`**: Download a file.
+- **`curl [URL]`**: Retrieve information from the web.
+- **`scp [file] [user@host:/path]`**: Copy files over SSH.
 
-- **`rm`**
-  - **Mô tả**: Xóa file hoặc thư mục.
-  - **Cú pháp**: `rm [tên file]`
-  - **Ví dụ**: 
-    ```copy
-    $ rm file.txt
-    ```
+## Compression and Extraction
+- **`tar -cvf [archive] [directory]`**: Compress a directory.
+- **`tar -xvf [archive]`**: Extract an archive.
 
-- **`cp`**
-  - **Mô tả**: Sao chép file hoặc thư mục.
-  - **Cú pháp**: `cp [tên file nguồn] [tên file đích]`
-  - **Ví dụ**: 
-    ```copy
-    $ cp file.txt copy_file.txt
-    ```
+## Text Editors
+- **`nano [file]`**: Open file in nano.
+- **`vim [file]`**: Open file in vim.
 
-- **`mv`**
-  - **Mô tả**: Di chuyển file hoặc thư mục, hoặc đổi tên chúng.
-  - **Cú pháp**: `mv [tên file nguồn] [tên file đích]`
-  - **Ví dụ**: 
-    ```copy
-    $ mv oldfile.txt newfile.txt
-    ```
-
-## Quản lý quyền truy cập
-
-- **`ls -l [file/thư mục]`**
-  - **Mô tả**: Xem thông tin của file hoặc thư mục.
-  - **Chi tiết**: 
-    Ký tự đầu tiên: loại tệp
-      -: tệp bình thường
-      d: thư mục
-      l: liên kết mềm (symbolic link)
-    9 ký tự tiếp theo được chia thành ba nhóm, mỗi nhóm gồm 3 ký tự:
-      Người sở hữu (owner): quyền của người sở hữu tệp
-      Nhóm (group): quyền của nhóm người dùng
-      Người dùng khác (others): quyền của những người không thuộc nhóm và không phải là người sở hữu
-
-- **`chmod`**
-  - **Mô tả**: Thay đổi quyền truy cập của file hoặc thư mục.
-  - **Quyền**: 4: đọc (tương ứng với r), 2: ghi (tương ứng với w), 1: thực thi (tương ứng với x)
-  - **Cú pháp**: `chmod [quyền] [tên file]`
-  - **Ví dụ**: 
-    ```copy
-    $ chmod 755 script.sh
-    ```
-
-- **`chown`**
-  - **Mô tả**: Thay đổi chủ sở hữu của file hoặc thư mục.
-  - **Cú pháp**: `chown [người dùng]:[nhóm] [tên file]`
-  - **Ví dụ**: 
-    ```copy
-    $ chown user:group file.txt
-    ```
-
-## Tìm kiếm và lọc
-- **`find`**
-  - **Mô tả**: Tìm kiếm file và thư mục trong hệ thống.
-  - **Cú pháp**: `find [đường dẫn] -name [tên file]`
-  - **Ví dụ**: 
-    ```copy
-    $ find /home/user -name "*.txt"
-    ```
-
-- **`grep`**
-  - **Mô tả**: Tìm kiếm chuỗi trong file.
-  - **Cú pháp**: `grep [chuỗi] [tên file]`
-  - **Ví dụ**: 
-    ```copy
-    $ grep "hello" file.txt
-    ```
-
-## Quản lý tiến trình
-- **`ps`**
-  - **Mô tả**: Hiển thị thông tin về các tiến trình đang chạy.
-  - **Cú pháp**: `ps [tùy chọn]`
-  - **Ví dụ**: 
-    ```copy
-    $ ps aux
-    ```
-
-- **`kill`**
-  - **Mô tả**: Kết thúc một tiến trình.
-  - **Cú pháp**: `kill [PID]`
-  - **Ví dụ**: 
-    ```copy
-    $ kill 1234
-    ```
-
-## Thông tin về đĩa
-- **`df`**
-  - **Mô tả**: Hiển thị thông tin về dung lượng đĩa.
-  - **Cú pháp**: `df [tùy chọn]`
-  - **Ví dụ**: 
-    ```copy
-    $ df -h
-    ```
-
-- **`du`**
-  - **Mô tả**: Kiểm tra dung lượng của file và thư mục.
-  - **Cú pháp**: `du [tùy chọn] [đường dẫn]`
-  - **Ví dụ**: 
-    ```copy
-    $ du -sh /path/to/directory
-    ```
-
-## Tải và truyền file
-- **`wget`**
-  - **Mô tả**: Tải file từ internet.
-  - **Cú pháp**: `wget [URL]`
-  - **Ví dụ**: 
-    ```copy
-    $ wget http://example.com/file
-    ```
-
-- **`curl`**
-  - **Mô tả**: Gửi yêu cầu HTTP và lấy thông tin từ web.
-  - **Cú pháp**: `curl [URL]`
-  - **Ví dụ**: 
-    ```copy
-    $ curl http://example.com
-    ```
-
-- **`scp`**
-  - **Mô tả**: Sao chép file giữa các máy tính qua SSH.
-  - **Cú pháp**: `scp [tên file] [user@host:/path/to/destination]`
-  - **Ví dụ**: 
-    ```copy
-    $ scp file.txt user@remotehost:/path/to/destination
-    ```
-
-## Nén và giải nén
-- **`tar`**
-  - **Mô tả**: Nén và giải nén file.
-  - **Cú pháp**: 
-    - Nén: `tar -cvf [tên archive] [tên thư mục]`
-    - Giải nén: `tar -xvf [tên archive]`
-  - **Ví dụ**: 
-    ```copy
-    $ tar -cvf archive.tar directory
-    $ tar -xvf archive.tar
-    ```
-
-## Trình soạn thảo văn bản
-- **`nano`**
-  - **Mô tả**: Trình soạn thảo văn bản đơn giản.
-  - **Cú pháp**: `nano [tên file]`
-  - **Ví dụ**: 
-    ```copy
-    $ nano file.txt
-    ```
-
-- **`vim`**
-  - **Mô tả**: Trình soạn thảo văn bản mạnh mẽ.
-  - **Cú pháp**: `vim [tên file]`
-  - **Ví dụ**: 
-    ```copy
-    $ vim file.txt
-    ```
-
-## Kết nối từ xa
-- **`ssh`**
-  - **Mô tả**: Kết nối đến máy chủ từ xa qua giao thức SSH.
-  - **Cú pháp**: `ssh [user@host]`
-  - **Ví dụ**: 
-    ```copy
-    $ ssh user@192.168.1.1
-    ```
-
-## Bài tập thực hành
-
-**`Tạo và quản lý thư mục`**
-  - Tạo một thư mục có tên `test_folder`.
-  - Bên trong thư mục `test_folder`, tạo ba file có tên `file1.txt`, `file2.txt`, và `file3.txt`.
-  - Liệt kê các file trong `test_folder`.
-  - Tạo một thư mục con trong `test_folder` có tên `sub_folder`.
-
-**`Sao chép, di chuyển và xóa`**
-  - Sao chép `file1.txt` thành `file1_copy.txt` trong cùng thư mục.
-  - Di chuyển `file2.txt` vào thư mục cha.
-  - Xóa `file3.txt` và xác nhận rằng nó đã bị xóa.
-
-**`Chỉnh sửa file`**
-  - Mở `file1.txt` bằng `nano` hoặc `vim` và thêm một vài dòng văn bản vào file.
-  - Lưu và thoát khỏi trình soạn thảo.
-  - Tạo một file mới có tên `notes.txt` và ghi lại nội dung bạn đã thêm vào `file1.txt`.
-
-**`Thay đổi quyền truy cập`**
-  - Thay đổi quyền truy cập của `file3.txt` (đã xóa) thành chỉ đọc cho người khác.
-  - Tạo lại `file3.txt` và áp dụng quyền truy cập đã thay đổi.
-
-**`Tìm kiếm file`**
-  - Tìm kiếm tất cả các file `.txt` trong `test_folder` và xuất kết quả ra file `search_results.txt`.
-
-**`Nén và giải nén`**
-  - Nén `test_folder` thành file `test_folder.tar.gz`.
-  - Giải nén `test_folder.tar.gz` vào một thư mục mới có tên `unzipped_folder`.
-
-**`Quản lý tiến trình`**
-  - Mở một terminal mới và chạy một chương trình như `top` hoặc `htop` để xem các tiến trình đang chạy.
-  - Ghi lại ID tiến trình (PID) của một chương trình đang chạy và sử dụng lệnh `kill` để kết thúc tiến trình đó.
-
-**`Kết nối SSH`**
-  - Nếu bạn có một máy chủ SSH, hãy thử kết nối tới nó bằng lệnh `ssh`.
-  - Sau khi kết nối, tạo một file có tên `remote_file.txt` trên máy chủ từ xa và thêm một số nội dung vào đó.
-
-**`Tạo script tự động`**
-  - Viết một script shell đơn giản (ví dụ: `backup.sh`) để tự động sao chép các file `.txt` từ `test_folder` sang một thư mục `backup_folder` (tạo thư mục này nếu chưa có).
-  - Chạy script và xác nhận rằng các file đã được sao chép thành công.
-
-**`Quản lý file với `find` và `grep``**
-  - Sử dụng lệnh `find` để tìm kiếm tất cả các file trong `test_folder` có kích thước lớn hơn 1KB.
-  - Sử dụng `grep` để tìm kiếm một chuỗi cụ thể trong tất cả các file `.txt` trong `test_folder`.
+## Remote Connection
+- **`ssh [user@host]`**: Connect to a remote server.

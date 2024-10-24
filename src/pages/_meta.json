@@ -6,6 +6,8 @@
         }
     },
     "chapter1": "Chapter 1: Setup",
-    "chapter2": "Chapter 2: Các lệnh cơ bản",
-    "chapter3": "Chapter 3: SSH kết nối đến máy chủ Ubuntu"
+    "chapter2": "Chapter 2: Basic Linux Command Guide",
+    "chapter3": "Chapter 3: SSH Setup Guide on Ubuntu with Multipass",
+    "chapter4": "Chapter 4: Users and Groups in Ubuntu",
+    "chapter5": "Chapter 4: Installing GitLab on Ubuntu Server"
 }
