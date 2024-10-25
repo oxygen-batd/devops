@@ -14,7 +14,7 @@ const config = {
 const isGithubActions = true;//process.env.GITHUB_ACTIONS || false;
 if (isGithubActions) {
     //const repo = process.env.GITHUB_REPOSITORY.replace(/.*?\//, '');
-    const repo = 'gh-pages'.replace(/.*?\//, '');
+    const repo = 'devops'.replace(/.*?\//, '');
 
     config.assetPrefix = `/${repo}/`
     config.basePath = `/${repo}`
